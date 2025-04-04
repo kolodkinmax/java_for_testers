@@ -57,9 +57,9 @@ public class TriangleTests {
 
     @Test
     void testEqualityTriangles1() {
-        var a = 2.0;
-        var b = 3.0;
-        var c = 4.0;
+        var a = 2;
+        var b = 3;
+        var c = 4;
         var t1 = new Triangle(a, b, c);
         var t2 = new Triangle(a, b, c);
         Assertions.assertEquals(t1, t2);
@@ -67,9 +67,9 @@ public class TriangleTests {
 
     @Test
     void testEqualityTriangles2() {
-        var a = 2.0;
-        var b = 3.0;
-        var c = 4.0;
+        var a = 2;
+        var b = 3;
+        var c = 4;
         var t1 = new Triangle(a, b, c);
         var t2 = new Triangle(b, c, a);
         Assertions.assertEquals(t1, t2);
