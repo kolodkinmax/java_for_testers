@@ -1,7 +1,13 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ContactHelper extends HelperBase {
 
@@ -68,11 +74,30 @@ public class ContactHelper extends HelperBase {
         return manager.isElementPresent(By.name("selected[]"));
     }
 
-    private void removeSelectedContact() {
+    public void removeSelectedContact() {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
     private void selectContact() {
         click(By.name("selected[]"));
+    }
+
+    public int getCount() {
+        openContactPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void selectAllContacts() {
+        openContactPage();
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();
+        }
+    }
+
+    public String getRandomMonth() {
+        var allMonths = new ArrayList<String>(List.of("-", "January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October", "November", "December"));
+        return allMonths.get(new Random().nextInt(allMonths.size()));
     }
 }
