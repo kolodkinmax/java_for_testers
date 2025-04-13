@@ -23,9 +23,9 @@ public class ContactHelper extends HelperBase {
         returnToContactPage();
     }
 
-    public void removeContact() {
+    public void removeContact(ContactData contact) {
         openContactPage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContact();
     }
 
@@ -78,8 +78,8 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
     public int getCount() {
@@ -99,5 +99,19 @@ public class ContactHelper extends HelperBase {
         var allMonths = new ArrayList<String>(List.of("-", "January", "February", "March", "April", "May",
                 "June", "July", "August", "September", "October", "November", "December"));
         return allMonths.get(new Random().nextInt(allMonths.size()));
+    }
+
+    public List<ContactData> getList() {
+        openContactPage();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var tr : trs) {
+            var firstName = tr.findElement(By.cssSelector("td:nth-child(3)")).getText();
+            var lastName = tr.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
     }
 }
