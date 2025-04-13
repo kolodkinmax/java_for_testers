@@ -69,17 +69,14 @@ public class ContactCreationTests extends TestBase {
 //            }
 //        }
         for (int i = 0; i < 5; i++) {
+            var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
             result.add(new ContactData("", randomString(i * 10), randomString(i * 10), randomString(i * 10),
                     randomString(i * 10), randomString(i * 10), randomString(i * 10),
                     randomString(i * 10), randomString(i * 10), randomString(i * 10),
                     randomString(i * 10), randomString(i * 10), randomString(i * 10),
                     randomString(i * 10), randomString(i * 10), randomString(i * 10),
                     Integer.toString(new Random().nextInt(1, 31)),
-                    new ArrayList<String>(List.of("-", "January", "February", "March", "April", "May",
-                            "June", "July", "August", "September", "October", "November", "December")).
-                            get(new Random().nextInt(new ArrayList<String>(List.of
-                                    ("-", "January", "February", "March", "April", "May",
-                                            "June", "July", "August", "September", "October", "November", "December")).size())),
+                    new ArrayList<String>(months).get(new Random().nextInt(new ArrayList<String>(months).size())),
                     Integer.toString(new Random().nextInt(1950, 2030))));
         }
         return result;
