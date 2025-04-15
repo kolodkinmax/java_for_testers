@@ -29,6 +29,15 @@ public class ContactHelper extends HelperBase {
         removeSelectedContact();
     }
 
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        openContactPage();
+        selectContact(contact);
+        initContactModification(contact);
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToContactsPage();
+    }
+
     private void returnToContactPage() {
         manager.driver.findElement(By.linkText("home page")).click();
 
@@ -69,11 +78,6 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("home"));
     }
 
-    public boolean isContactPresent() {
-        openContactPage();
-        return manager.isElementPresent(By.name("selected[]"));
-    }
-
     public void removeSelectedContact() {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
@@ -82,23 +86,12 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
-    public int getCount() {
-        openContactPage();
-        return manager.driver.findElements(By.name("selected[]")).size();
-    }
-
     public void selectAllContacts() {
         openContactPage();
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
-    }
-
-    public String getRandomMonth() {
-        var allMonths = new ArrayList<String>(List.of("-", "January", "February", "March", "April", "May",
-                "June", "July", "August", "September", "October", "November", "December"));
-        return allMonths.get(new Random().nextInt(allMonths.size()));
     }
 
     public List<ContactData> getList() {
@@ -113,5 +106,17 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }
         return contacts;
+    }
+
+    private void initContactModification(ContactData contact) {
+        click(By.cssSelector(String.format("a[href='edit.php?id=%s']", contact.id())));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    private void returnToContactsPage() {
+        click(By.linkText("home page"));
     }
 }
