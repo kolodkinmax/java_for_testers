@@ -1,8 +1,9 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.ContactData;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +14,7 @@ public class ContactRemovalTests extends TestBase {
     public void canRemoveContact() {
         if (app.contacts().getList().isEmpty()) {
             app.contacts().createContact(new ContactData("Макс", "Такой", "Самый",
-                    "28", "April", "1987"));
+                    "28", "April", "1987").withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
@@ -29,7 +30,7 @@ public class ContactRemovalTests extends TestBase {
     public void canRemoveAllContactAtOnce() {
         if (app.contacts().getList().isEmpty()) {
             app.contacts().createContact(new ContactData("Макс", "Такой", "Самый",
-                    "28", "April", "1987"));
+                    "28", "April", "1987").withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         app.contacts().selectAllContacts();
         app.contacts().removeSelectedContact();

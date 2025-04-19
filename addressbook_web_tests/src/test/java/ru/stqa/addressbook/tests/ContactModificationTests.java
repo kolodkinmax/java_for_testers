@@ -1,8 +1,8 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.stqa.addressbook.model.ContactData;
 
 import java.util.ArrayList;
 import java.util.Comparator;

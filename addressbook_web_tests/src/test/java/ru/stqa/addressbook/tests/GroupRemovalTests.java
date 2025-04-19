@@ -1,8 +1,8 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,13 +1,12 @@
-package manager;
+package ru.stqa.addressbook.manager;
 
-import model.ContactData;
-import model.GroupData;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
+import ru.stqa.addressbook.model.ContactData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ContactHelper extends HelperBase {
 
@@ -39,13 +38,11 @@ public class ContactHelper extends HelperBase {
     }
 
     private void returnToContactPage() {
-        manager.driver.findElement(By.linkText("home page")).click();
-
+        click(By.linkText("home page"));
     }
 
     private void submitContactCreation() {
         click(By.name("submit"));
-
     }
 
     private void fillContactForm(ContactData contact) {
@@ -53,6 +50,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("middlename"), contact.middleName());
         type(By.name("lastname"), contact.lastName());
         type(By.name("nickname"), contact.nickname());
+        attach(By.name("photo"), contact.photo());
         type(By.name("title"), contact.title());
         type(By.name("company"), contact.company());
         type(By.name("address"), contact.address());
@@ -79,10 +77,12 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeSelectedContact() {
+        moveTo(By.xpath("//input[@value=\'Delete\']"));
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
     private void selectContact(ContactData contact) {
+        moveTo(By.cssSelector(String.format("input[id='%s']", contact.id())));
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
@@ -90,6 +90,7 @@ public class ContactHelper extends HelperBase {
         openContactPage();
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         for (var checkbox : checkboxes) {
+            moveTo(checkbox);
             checkbox.click();
         }
     }

@@ -8,6 +8,8 @@ public class Hello {
         System.out.println(configFile.getAbsolutePath());
         System.out.println(configFile.exists());
 
+        System.out.println(new File("").getAbsolutePath());
+
         var x = 1;
         var y = 0;
         if (y == 0) {

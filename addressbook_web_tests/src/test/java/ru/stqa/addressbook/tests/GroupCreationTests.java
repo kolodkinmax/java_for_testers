@@ -1,17 +1,24 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.GroupData;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.GroupData;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class GroupCreationTests extends TestBase {
 
-    public static List<GroupData> groupProvider() {
+    public static List<GroupData> groupProvider() throws IOException {
         var result = new ArrayList<GroupData>();
         for (var name : List.of("", "group name")) {
             for (var header : List.of("", "group header")) {
@@ -22,10 +29,28 @@ public class GroupCreationTests extends TestBase {
         }
         for (int i = 0; i < 5; i++) {
             result.add(new GroupData()
-                    .withName(randomString(i * 10))
-                    .withHeader(randomString(i * 10))
-                    .withFooter(randomString(i * 10)));
+                    .withName(CommonFunctions.randomString(i * 10))
+                    .withHeader(CommonFunctions.randomString(i * 10))
+                    .withFooter(CommonFunctions.randomString(i * 10)));
         }
+
+        // Вариант с чтением файла по строчно
+        var json = "";
+        try (var reader = new FileReader("groups.json");
+             var breader = new BufferedReader(reader)
+        ) {
+            var line = breader.readLine();
+            while (line != null) {
+                json = json + line + "\n";
+                line = breader.readLine();
+            }
+        }
+//        var json = Files.readString(Paths.get("groups.json")); // вариант с чтением файла целиком
+        ObjectMapper mapper = new JsonMapper();
+//        var value = mapper.readValue(new File("groups.json"), new TypeReference<List<GroupData>>() {});
+        var value = mapper.readValue(json, new TypeReference<List<GroupData>>() {
+        });
+        result.addAll(value);
         return result;
     }
 

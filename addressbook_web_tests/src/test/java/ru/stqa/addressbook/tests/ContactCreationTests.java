@@ -1,19 +1,25 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.ContactData;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.ContactData;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class ContactCreationTests extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
 //        for (var firstName : List.of("", "firstName")) {
 //            for (var middleName : List.of("", "middleName")) {
@@ -68,17 +74,20 @@ public class ContactCreationTests extends TestBase {
 //                }
 //            }
 //        }
-        for (int i = 0; i < 5; i++) {
-            var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-            result.add(new ContactData("", randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    Integer.toString(new Random().nextInt(1, 31)),
-                    new ArrayList<String>(months).get(new Random().nextInt(new ArrayList<String>(months).size())),
-                    Integer.toString(new Random().nextInt(1950, 2030))));
+        var json = "";
+        try (var reader = new FileReader("contacts.json");
+             var breader = new BufferedReader(reader)
+        ) {
+            var line = breader.readLine();
+            while (line != null) {
+                json = json + line + "\n";
+                line = breader.readLine();
+            }
         }
+        ObjectMapper mapper = new JsonMapper();
+        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {
+        });
+        result.addAll(value);
         return result;
     }
 
@@ -105,11 +114,11 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     void canCreateContactWithAllEmptyFields() {
-        app.contacts().createContact(new ContactData());
+        app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
     }
 
     @Test
     void canCreateContactWithFirstNameOnly() {
-        app.contacts().createContact(new ContactData().withFirstName("Ivan"));
+        app.contacts().createContact(new ContactData().withFirstName("Ivan").withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
     }
 }
