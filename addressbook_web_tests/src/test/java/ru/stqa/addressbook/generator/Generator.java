@@ -9,12 +9,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
+import ru.stqa.addressbook.tests.TestBase;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 public class Generator {
@@ -31,6 +31,7 @@ public class Generator {
     @Parameter(names = {"--count", "-n"})
     int count;
 
+
     public static void main(String[] args) throws IOException {
         var generator = new Generator();
         JCommander.newBuilder()
@@ -38,7 +39,6 @@ public class Generator {
                 .build()
                 .parse(args);
         generator.run();
-
     }
 
     private void run() throws IOException {
@@ -46,7 +46,18 @@ public class Generator {
         save(data);
     }
 
-    private Object generate() {
+    private Object generate() throws IOException {
+        var properties = new Properties();
+        properties.load(new FileReader(System.getProperty("target", "addressbook_web_tests/local.properties")));
+        if (properties.getProperty("generator.type") != null
+                && properties.getProperty("generator.output") != null
+                && properties.getProperty("generator.format") != null
+                && properties.getProperty("generator.count") != null) {
+            this.type = properties.getProperty("generator.type");
+            this.output = properties.getProperty("generator.output");
+            this.format = properties.getProperty("generator.format");
+            this.count = Integer.parseInt(properties.getProperty("generator.count"));
+        }
         if ("groups".equals(type)) {
             return generateGroups();
         } else if ("contacts".equals(type)) {
@@ -72,7 +83,7 @@ public class Generator {
         for (int i = 0; i < count; i++) {
             var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
             result.add(new ContactData("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), CommonFunctions.randomFile("src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+                    CommonFunctions.randomString(i * 10), CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
                     CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
                     CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
                     CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),

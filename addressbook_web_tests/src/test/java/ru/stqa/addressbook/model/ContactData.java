@@ -6,12 +6,12 @@ public record ContactData(
         String homepage, String bDay, String bMonth, String bYear) {
 
     public ContactData() {
-        this("", "", "", "", "", "","", "", "", "",
+        this("", "", "", "", "", "src/test/resources/images/avatar.png","", "", "", "",
                 "", "", "", "", "", "", "", "-", "-","");
     }
 
     public ContactData(String firstName, String middleName, String lastName, String bDay, String bMonth, String bYear) {
-        this("", firstName, middleName, lastName, "", "", "","", "", "",
+        this("", firstName, middleName, lastName, "", "src/test/resources/images/avatar.png", "","", "", "",
                 "", "", "", "", "", "", "", bDay, bMonth, bYear);
     }
 
@@ -31,7 +31,7 @@ public record ContactData(
     }
 
     public ContactData withDefaultValueExceptIdAndFirstNameAndLastName() {
-        return new ContactData(this.id, this.firstName, "", this.lastName, "", "", "", "", "", "",
+        return new ContactData(this.id, this.firstName, "", this.lastName, "", "src/test/resources/images/avatar.png", "", "", "", "",
                 "", "", "", "", "", "", "", "-", "-","");
     }
 

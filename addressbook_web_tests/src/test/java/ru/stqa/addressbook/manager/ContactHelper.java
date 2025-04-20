@@ -77,12 +77,12 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeSelectedContact() {
-        moveTo(By.xpath("//input[@value=\'Delete\']"));
+//        moveTo(By.xpath("//input[@value=\'Delete\']"));
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
     private void selectContact(ContactData contact) {
-        moveTo(By.cssSelector(String.format("input[id='%s']", contact.id())));
+//        moveTo(By.cssSelector(String.format("input[id='%s']", contact.id())));
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 

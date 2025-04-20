@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Properties;
+
 public class ApplicationManager {
     protected WebDriver driver;
 
@@ -16,19 +18,29 @@ public class ApplicationManager {
 
     private ContactHelper contacts;
 
-    public void init(String browser) {
+    private Properties properties;
+
+    public void init(String browser, Properties properties) {
+        this.properties = properties;
         if (driver == null) {
             if ("firefox".equals(browser)) {
                 driver = new FirefoxDriver();
             } else if ("chrome".equals(browser)) {
-                    driver = new ChromeDriver();
+                driver = new ChromeDriver();
             } else {
                 throw new IllegalArgumentException(String.format("Unknown browser %s", browser));
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
-            driver.get("http://localhost/addressbook/");
-            driver.manage().window().setSize(new Dimension(1043, 1151));
-            session().login("admin", "secret");
+            driver.get(properties.getProperty("web.baseUrl"));
+            if (properties.getProperty("web.windowsize") != null) {
+                String[] windowSize = properties.getProperty("web.windowsize").split(",");
+                driver.manage().window().setSize(new Dimension(Integer.parseInt(windowSize[0]), Integer.parseInt(windowSize[1])));
+            } else {
+                driver.manage().window().maximize();
+            }
+            session().login(
+                    properties.getProperty("web.username"),
+                    properties.getProperty("web.password"));
         }
     }
 
