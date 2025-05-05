@@ -3,7 +3,6 @@ package ru.stqa.addressbook.manager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.nio.file.Paths;
@@ -37,7 +36,7 @@ public class HelperBase {
 
     protected void selectType(By locator, String text) {
         click(locator);
-        new Select(manager.driver.findElement(locator)).selectByVisibleText(text);
+        new Select(manager.driver.findElement(locator)).selectByValue(text);
     }
 
     protected void attach(By locator, String file) {

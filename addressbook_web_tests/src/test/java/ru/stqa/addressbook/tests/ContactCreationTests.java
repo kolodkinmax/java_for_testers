@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
+import ru.stqa.addressbook.model.GroupData;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -91,7 +92,14 @@ public class ContactCreationTests extends TestBase {
         return result;
     }
 
+    public static List<ContactData> singleRandomGroup() {
+        return List.of(new ContactData()
+                .withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(20))
+                .withAddress(CommonFunctions.randomString(30)));
+    }
 
+    //старый тест и проверки по WEBу
     @ParameterizedTest
     @MethodSource("contactProvider")
     void canCreateMultipleContact(ContactData contact) {
@@ -110,6 +118,40 @@ public class ContactCreationTests extends TestBase {
                 .withDefaultValueExceptIdAndFirstNameAndLastName());
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomGroup")
+    void canCreateContact(ContactData contact) {
+        var oldContacts = app.hbm().getContactList();
+        app.contacts().createContact(contact);
+        var newContacts = app.hbm().getContactList();
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newContacts.sort(compareById);
+
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.add(contact.withId(newContacts.getLast().id())
+                .withFirstName(newContacts.getLast().firstName())
+                .withLastName(newContacts.getLast().lastName())
+                .withPhoto(newContacts.getLast().photo()));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomGroup")
+    void canCreateContactInGroup(ContactData contact) {
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "", "", ""));
+        }
+        var group = app.hbm().getGroupList().get(0);
+
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().create(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 
     @Test

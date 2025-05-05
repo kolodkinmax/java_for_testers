@@ -7,7 +7,12 @@ public record ContactData(
 
     public ContactData() {
         this("", "", "", "", "", "src/test/resources/images/avatar.png","", "", "", "",
-                "", "", "", "", "", "", "", "-", "-","");
+                "", "", "", "", "", "", "", "0", "-","");
+    }
+
+    public ContactData(String id, String firstName, String lastName, String address) {
+        this(id, firstName, "", lastName, "", "src/test/resources/images/avatar.png","", "", address, "",
+                "", "", "", "", "", "", "", "0", "-","");
     }
 
     public ContactData(String firstName, String middleName, String lastName, String bDay, String bMonth, String bYear) {
@@ -30,9 +35,14 @@ public record ContactData(
                 this.mobile, this.work, this.fax, this.email, this.email2, this.email3, this.homepage, this.bDay, this.bMonth,this.bYear);
     }
 
+    public ContactData withAddress(String address) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.nickname, this.photo, this.title, this.company, address, this.home,
+                this.mobile, this.work, this.fax, this.email, this.email2, this.email3, this.homepage, this.bDay, this.bMonth,this.bYear);
+    }
+
     public ContactData withDefaultValueExceptIdAndFirstNameAndLastName() {
         return new ContactData(this.id, this.firstName, "", this.lastName, "", "src/test/resources/images/avatar.png", "", "", "", "",
-                "", "", "", "", "", "", "", "-", "-","");
+                "", "", "", "", "", "", "", "0", "-","");
     }
 
     public ContactData withPhoto(String photo) {
