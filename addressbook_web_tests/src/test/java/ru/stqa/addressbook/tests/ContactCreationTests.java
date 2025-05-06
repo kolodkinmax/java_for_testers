@@ -144,7 +144,7 @@ public class ContactCreationTests extends TestBase {
     @MethodSource("singleRandomGroup")
     void canCreateContactInGroup(ContactData contact) {
         if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "", "", ""));
+            app.hbm().createGroup(new GroupData("", "тест", "", ""));
         }
         var group = app.hbm().getGroupList().get(0);
 

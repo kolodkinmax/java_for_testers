@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.sql.DriverManager;
@@ -54,6 +55,21 @@ public class JdbcHelper extends HelperBase {
                      "SELECT * FROM address_in_groups")) {
             while (result.next()) {
                 contacts.put(result.getInt("id"), result.getInt("group_id"));
+            }
+            return contacts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<ContactData> getContactsWithoutGroup() {
+        var contacts = new ArrayList<ContactData>();
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
+             var statement = conn.createStatement();
+             var result = statement.executeQuery(
+                     "SELECT * FROM addressbook ab LEFT JOIN address_in_groups ag ON ab.id = ag.id WHERE ag.id IS NULL ")) {
+            while (result.next()) {
+                contacts.add(new ContactData().withId(result.getString("id")));
             }
             return contacts;
         } catch (SQLException e) {

@@ -3,6 +3,7 @@ package ru.stqa.addressbook.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
+import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,5 +31,22 @@ public class ContactModificationTests extends TestBase {
         newContacts.sort(compareById);
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @Test
+    void canAddContactInGroup() {
+        if (app.hbm().getGroupCount() == 0) {
+            app.groups().createGroup(new GroupData("", "тест", "", ""));
+        }
+        if (app.hbm().getContactCount() == 0 || app.jbdc().getContactsWithoutGroup().isEmpty()) {
+            app.contacts().createContact(new ContactData("Макс", "Такой", "Самый",
+                    "28", "April", "1987"));
+        }
+        var group = app.hbm().getGroupList().getFirst();
+        var contact = app.jbdc().getContactsWithoutGroup().getFirst();
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().addContactInGroup(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 }

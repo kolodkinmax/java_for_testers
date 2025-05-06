@@ -148,4 +148,15 @@ public class ContactHelper extends HelperBase {
     private void openContactListInGroup(GroupData group) {
         selectType(By.name("group"), group.id());
     }
+
+    private void addSelectContactInGroup(ContactData contact, GroupData group) {
+        openContactPage();
+        selectContact(contact);
+        selectType(By.name("to_group"), group.id());
+        click(By.name("add"));
+    }
+
+    public void addContactInGroup(ContactData contact, GroupData group) {
+        addSelectContactInGroup(contact, group);
+    }
 }
