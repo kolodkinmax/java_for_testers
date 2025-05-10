@@ -9,13 +9,15 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
-import ru.stqa.addressbook.tests.TestBase;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Generator {
 
@@ -67,31 +69,56 @@ public class Generator {
         }
     }
 
+//    private Object generateGroups() {
+//        var result = new ArrayList<GroupData>();
+//        for (int i = 0; i < count; i++) {
+//            result.add(new GroupData()
+//                    .withName(CommonFunctions.randomString(i * 10))
+//                    .withHeader(CommonFunctions.randomString(i * 10))
+//                    .withFooter(CommonFunctions.randomString(i * 10)));
+//        }
+//        return result;
+//    }
+
+//    private Object generateContacts() {
+//        var result = new ArrayList<ContactData>();
+//        for (int i = 0; i < count; i++) {
+//            var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+//            result.add(new ContactData("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    CommonFunctions.randomString(i * 10), CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    Integer.toString(new Random().nextInt(1, 31)),
+//                    new ArrayList<String>(months).get(new Random().nextInt(new ArrayList<String>(months).size())),
+//                    Integer.toString(new Random().nextInt(1950, 2030))));
+//        }
+//        return result;
+//    }
+
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupData()
-                    .withName(CommonFunctions.randomString(i * 10))
-                    .withHeader(CommonFunctions.randomString(i * 10))
-                    .withFooter(CommonFunctions.randomString(i * 10)));
-        }
-        return result;
+        return generateData(() -> new GroupData()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(10))
+                .withFooter(CommonFunctions.randomString(10)));
     }
 
     private Object generateContacts() {
-        var result = new ArrayList<ContactData>();
-        for (int i = 0; i < count; i++) {
-            var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-            result.add(new ContactData("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    Integer.toString(new Random().nextInt(1, 31)),
-                    new ArrayList<String>(months).get(new Random().nextInt(new ArrayList<String>(months).size())),
-                    Integer.toString(new Random().nextInt(1950, 2030))));
-        }
-        return result;
+        var months = List.of("-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        return generateData(() -> new ContactData(
+                "", CommonFunctions.randomString(10), CommonFunctions.randomString(10), CommonFunctions.randomString(10),
+                CommonFunctions.randomString(10), CommonFunctions.randomFile("addressbook_web_tests/src/test/resources/images"),
+                CommonFunctions.randomString(10), CommonFunctions.randomString(10), CommonFunctions.randomString(10),
+                CommonFunctions.randomString(10), CommonFunctions.randomString(10), CommonFunctions.randomString(10),
+                CommonFunctions.randomString(10), CommonFunctions.randomString(10), CommonFunctions.randomString(10),
+                CommonFunctions.randomString(10), CommonFunctions.randomString(10),
+                Integer.toString(new Random().nextInt(1, 31)),
+                new ArrayList<String>(months).get(new Random().nextInt(new ArrayList<String>(months).size())),
+                Integer.toString(new Random().nextInt(1950, 2030)), ""));
     }
 
     private void save(Object data) throws IOException {

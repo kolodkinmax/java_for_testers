@@ -29,6 +29,7 @@ public class ContactRecord {
     public String bmonth;
     public String byear;
     public String notes;
+    public String phone2;
 
     public ContactRecord() {
     }
@@ -42,7 +43,7 @@ public class ContactRecord {
 
     public ContactRecord(int id, String firstname, String middlename, String lastname, String nickname, String company,
                          String title, String address, String home, String mobile, String work, String fax, String email,
-                         String email2, String email3, String homepage, int bday, String bmonth, String byear, String notes) {
+                         String email2, String email3, String homepage, int bday, String bmonth, String byear, String notes, String phone2) {
         this.id = id;
         this.firstname = firstname;
         this.middlename = middlename;
@@ -64,5 +65,6 @@ public class ContactRecord {
         this.bmonth = bmonth;
         this.byear = byear;
         this.notes = notes;
+        this.phone2 = phone2;
     }
 }

@@ -13,8 +13,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GroupCreationTests extends TestBase {
 
@@ -60,11 +63,12 @@ public class GroupCreationTests extends TestBase {
         return result;
     }
 
-    public static List<GroupData> singleRandomGroup() {
-        return List.of(new GroupData()
+    public static Stream<GroupData> randomGroups() {
+        Supplier<GroupData> randomGroup = () -> new GroupData()
                 .withName(CommonFunctions.randomString(10))
                 .withHeader(CommonFunctions.randomString(20))
-                .withFooter(CommonFunctions.randomString(30)));
+                .withFooter(CommonFunctions.randomString(30));
+        return Stream.generate(randomGroup).limit(3);
     }
 
 //    @ParameterizedTest
@@ -78,21 +82,18 @@ public class GroupCreationTests extends TestBase {
 //    }
 
     @ParameterizedTest
-    @MethodSource("singleRandomGroup")
+    @MethodSource("randomGroups")
     public void canCreateGroup(GroupData group) {
         var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-        newGroups.sort(compareById);
-        var maxId = newGroups.getLast().id();
+
+        var extraGroup = newGroups.stream().filter(g -> !oldGroups.contains(g)).toList();
+        var newId = extraGroup.get(0).id();
 
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(maxId));
-        expectedList.sort(compareById);
-        Assertions.assertEquals(newGroups, expectedList);
+        expectedList.add(group.withId(newId));
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));
         Assertions.assertEquals(oldGroups.size() + 1, newGroups.size());
 
         //проверка списков групп взятых из WEB и из БД
@@ -102,8 +103,7 @@ public class GroupCreationTests extends TestBase {
                     .withId(expectedList.get(i).id())
                     .withName(expectedList.get(i).name()));
         }
-        newUiGroups.sort(compareById);
-        Assertions.assertEquals(newUiGroups, expectedList);
+        Assertions.assertEquals(Set.copyOf(newUiGroups), Set.copyOf(expectedList));
     }
 
     @ParameterizedTest
