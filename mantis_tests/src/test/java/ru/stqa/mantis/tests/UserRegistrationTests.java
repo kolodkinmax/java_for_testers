@@ -38,12 +38,12 @@ public class UserRegistrationTests extends TestBase {
             app.session().fillFormAfterCreateUser(username, password);
         }
         // проверяем, что пользователь может залогиниться (HttpSessionHelper)
-        app.session().login(username, password);
+        app.http().login(username, password);
         Assertions.assertTrue(app.http().isLoggedIn());
     }
 
     public static Stream<String> randomName() {
         Supplier<String> randomName = () -> CommonFunctions.randomString(10);
-        return Stream.generate(randomName).limit(2);
+        return Stream.generate(randomName).limit(3);
     }
 }
