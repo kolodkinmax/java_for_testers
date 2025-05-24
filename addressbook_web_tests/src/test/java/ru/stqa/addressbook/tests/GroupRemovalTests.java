@@ -33,7 +33,7 @@ public class GroupRemovalTests extends TestBase {
     void canRemoveAllGroupsAtOnce() {
         Allure.step("Checking precondition", step -> {
             if (app.hbm().getGroupCount() == 0) {
-                app.hbm().createGroup(new GroupData("", "group name2", "group header2", "group footer2"));
+                app.hbm().createGroup(new GroupData("", "group name3", "group header2", "group footer2"));
             }
         });
         var groups = app.hbm().getGroupCount();
@@ -43,8 +43,8 @@ public class GroupRemovalTests extends TestBase {
         app.groups().removeAllGroups();
         var groupNow = app.hbm().getGroupCount();
         System.out.println("Количество групп после удаления: " + groupNow);
-        groupsByWeb = app.groups().getCount();
-        System.out.println("Количество групп после удаления по версии ВЭБа : " + groupsByWeb);
+        var groupsByWeb2 = app.groups().getCount();
+        System.out.println("Количество групп после удаления по версии ВЭБа : " + groupsByWeb2);
         Allure.step("Validating results", step -> {
             Assertions.assertEquals(0, groupNow);
         });
