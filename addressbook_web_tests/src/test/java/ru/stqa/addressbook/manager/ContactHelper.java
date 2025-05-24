@@ -193,6 +193,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public Map<String, String> getAddress() {
+        openContactPage();
         var result = new HashMap<String, String>();
         List<WebElement> rows = manager.driver.findElements(By.name("entry"));
         for (WebElement row : rows) {

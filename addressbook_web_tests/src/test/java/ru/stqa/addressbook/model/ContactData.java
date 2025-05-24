@@ -6,17 +6,17 @@ public record ContactData(
         String homepage, String bDay, String bMonth, String bYear, String phone2) {
 
     public ContactData() {
-        this("", "", "", "", "", "src/test/resources/images/avatar.png","", "", "", "",
+        this("", "", "", "", "", "C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images/avatar.png","", "", "", "",
                 "", "", "", "", "", "", "", "0", "-","", "");
     }
 
     public ContactData(String id, String firstName, String lastName, String address) {
-        this(id, firstName, "", lastName, "", "src/test/resources/images/avatar.png","", "", address, "",
+        this(id, firstName, "", lastName, "", "C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images/avatar.png","", "", address, "",
                 "", "", "", "", "", "", "", "0", "-","", "");
     }
 
     public ContactData(String firstName, String middleName, String lastName, String bDay, String bMonth, String bYear) {
-        this("", firstName, middleName, lastName, "", "src/test/resources/images/avatar.png", "","", "", "",
+        this("", firstName, middleName, lastName, "", "C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images/avatar.png", "","", "", "",
                 "", "", "", "", "", "", "", bDay, bMonth, bYear, "");
     }
 
@@ -41,7 +41,7 @@ public record ContactData(
     }
 
     public ContactData withDefaultValueExceptIdAndFirstNameAndLastName() {
-        return new ContactData(this.id, this.firstName, "", this.lastName, "", "src/test/resources/images/avatar.png", "", "", "", "",
+        return new ContactData(this.id, this.firstName, "", this.lastName, "", "C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images/avatar.png", "", "", "", "",
                 "", "", "", "", "", "", "", "0", "-","", "");
     }
 
