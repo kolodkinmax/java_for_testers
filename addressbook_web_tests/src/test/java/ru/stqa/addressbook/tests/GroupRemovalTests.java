@@ -3,6 +3,8 @@ package ru.stqa.addressbook.tests;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import ru.stqa.addressbook.manager.ApplicationManager;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class GroupRemovalTests extends TestBase {
                 app.hbm().createGroup(new GroupData("", "group name3", "group header2", "group footer2"));
             }
         });
+        var groupList = app.groups().getList();
+        System.out.println(groupList.toString());
+
         Thread.sleep(10000);
         var groups = app.hbm().getGroupCount();
         System.out.println("Количество групп до удаления : " + groups);
@@ -43,7 +48,12 @@ public class GroupRemovalTests extends TestBase {
         System.out.println("Количество групп до удаления по версии ВЭБа : " + groupsByWeb);
 
         app.groups().removeAllGroups();
+
+        var groupList2 = app.groups().getList();
+        System.out.println(groupList2.toString());
+
         Thread.sleep(10000);
+
         var groupNow = app.hbm().getGroupCount();
         System.out.println("Количество групп после удаления: " + groupNow);
         var groupsByWeb2 = app.groups().getCount();
