@@ -33,9 +33,11 @@ public class GroupRemovalTests extends TestBase {
     void canRemoveAllGroupsAtOnce() {
         Allure.step("Checking precondition", step -> {
             if (app.hbm().getGroupCount() == 0) {
-                app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+                app.hbm().createGroup(new GroupData("", "group name2", "group header2", "group footer2"));
             }
         });
+        var groups = app.hbm().getGroupCount();
+        System.out.println("Количество групп до удаления : " + groups);
         app.groups().removeAllGroups();
         var groupNow = app.hbm().getGroupCount();
         System.out.println("Количество групп на текущий момент: " + groupNow);

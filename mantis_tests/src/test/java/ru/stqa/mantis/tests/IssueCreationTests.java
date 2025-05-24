@@ -14,4 +14,13 @@ public class IssueCreationTests extends TestBase {
                 .withProject(1L)
         );
     }
+
+    @Test
+    void canCreateIssueWithSoap() {
+        app.soap().createIssue(new IssueData()
+                .withSummary(CommonFunctions.randomString(10))
+                .withDescription(CommonFunctions.randomString(50))
+                .withProject(1L)
+        );
+    }
 }
