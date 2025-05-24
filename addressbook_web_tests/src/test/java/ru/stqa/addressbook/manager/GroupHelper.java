@@ -42,9 +42,7 @@ public class GroupHelper extends HelperBase {
 
     @Step
     public void openGroupPage() {
-        if (!manager.isElementPresent(By.name("new"))) {
-            click(By.linkText("groups"));
-        }
+        click(By.linkText("groups"));
     }
 
     private void submitGroupCreation() {
