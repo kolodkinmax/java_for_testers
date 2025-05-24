@@ -37,8 +37,10 @@ public class GroupRemovalTests extends TestBase {
             }
         });
         app.groups().removeAllGroups();
+        var groupNow = app.hbm().getGroupCount();
+        System.out.println("Количество групп на текущий момент" + groupNow);
         Allure.step("Validating results", step -> {
-            Assertions.assertEquals(0, app.hbm().getGroupCount());
+            Assertions.assertEquals(0, groupNow);
         });
     }
 
