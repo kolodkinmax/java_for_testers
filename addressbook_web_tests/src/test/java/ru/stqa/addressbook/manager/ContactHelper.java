@@ -169,6 +169,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public Map<String, String> getPhones() {
+        openContactPage();
         var result = new HashMap<String, String>();
         List<WebElement> rows = manager.driver.findElements(By.name("entry"));
         for (WebElement row : rows) {
@@ -180,6 +181,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public Map<String, String> getEmails() {
+        openContactPage();
         var result = new HashMap<String, String>();
         List<WebElement> rows = manager.driver.findElements(By.name("entry"));
         for (WebElement row : rows) {
