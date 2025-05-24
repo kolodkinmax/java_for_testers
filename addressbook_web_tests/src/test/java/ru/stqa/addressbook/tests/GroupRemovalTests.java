@@ -35,31 +35,12 @@ public class GroupRemovalTests extends TestBase {
     void canRemoveAllGroupsAtOnce() throws InterruptedException {
         Allure.step("Checking precondition", step -> {
             if (app.hbm().getGroupCount() == 0) {
-                app.hbm().createGroup(new GroupData("", "group name3", "group header2", "group footer2"));
+                app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
             }
         });
-        var groupList = app.groups().getList();
-        System.out.println(groupList.toString());
-
-        Thread.sleep(10000);
-        var groups = app.hbm().getGroupCount();
-        System.out.println("Количество групп до удаления : " + groups);
-        var groupsByWeb = app.groups().getCount();
-        System.out.println("Количество групп до удаления по версии ВЭБа : " + groupsByWeb);
-
         app.groups().removeAllGroups();
-
-        var groupList2 = app.groups().getList();
-        System.out.println(groupList2.toString());
-
-        Thread.sleep(10000);
-
-        var groupNow = app.hbm().getGroupCount();
-        System.out.println("Количество групп после удаления: " + groupNow);
-        var groupsByWeb2 = app.groups().getCount();
-        System.out.println("Количество групп после удаления по версии ВЭБа : " + groupsByWeb2);
         Allure.step("Validating results", step -> {
-            Assertions.assertEquals(0, groupNow);
+            Assertions.assertEquals(0, app.hbm().getGroupCount());
         });
     }
 

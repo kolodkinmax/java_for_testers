@@ -89,11 +89,8 @@ public class GroupHelper extends HelperBase {
     @Step
     public void removeAllGroups() throws InterruptedException {
         openGroupPage();
-        Thread.sleep(10000);
         selectAllGroups();
-        Thread.sleep(10000);
         removeSelectedGroups();
-        Thread.sleep(10000);
     }
 
     @Step
