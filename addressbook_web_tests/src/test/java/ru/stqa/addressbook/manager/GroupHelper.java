@@ -40,6 +40,7 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
+    @Step
     public void openGroupPage() {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("groups"));
@@ -93,6 +94,7 @@ public class GroupHelper extends HelperBase {
         removeSelectedGroups();
     }
 
+    @Step
     private void selectAllGroups() {
         manager.driver
                 .findElements(By.name("selected[]"))
