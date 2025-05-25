@@ -18,6 +18,10 @@ public class HelperBase {
         manager.driver.findElement(locator).click();
     }
 
+    protected void getUrl(String url) {
+        manager.driver.get(url);
+    }
+
     protected void moveTo(By locator) {
         Actions action = new Actions(manager.driver);
         action.moveToElement(manager.driver.findElement(locator)).perform();

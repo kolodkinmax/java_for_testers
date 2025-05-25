@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.manager.SeleniumManager;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
@@ -93,7 +94,7 @@ public class ContactHelper extends HelperBase {
 
     @Step
     private void openContactPage() {
-        click(By.linkText("home"));
+        getUrl("http://localhost/addressbook/");
     }
 
     @Step
