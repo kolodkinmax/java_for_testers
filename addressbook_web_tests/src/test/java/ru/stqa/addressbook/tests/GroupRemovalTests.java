@@ -35,11 +35,13 @@ public class GroupRemovalTests extends TestBase {
 
     @Test
     void canRemoveAllGroupsAtOnce() throws InterruptedException {
+        Thread.sleep(10000);
         Allure.step("Checking precondition", step -> {
             if (app.hbm().getGroupCount() == 0) {
                 app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
             }
         });
+        Thread.sleep(10000);
         app.groups().removeAllGroups();
         Allure.step("Validating results", step -> {
             Assertions.assertEquals(0, app.hbm().getGroupCount());
