@@ -156,11 +156,11 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     void canCreateContactWithAllEmptyFields() {
-        app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images")));
+        app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
     }
 
     @Test
     void canCreateContactWithFirstNameOnly() {
-        app.contacts().createContact(new ContactData().withFirstName("Ivan").withPhoto(CommonFunctions.randomFile("C:/Users/MaxxPC/IdeaProjects/java_for_testers/addressbook_web_tests/src/test/resources/images")));
+        app.contacts().createContact(new ContactData().withFirstName("Ivan").withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
     }
 }
