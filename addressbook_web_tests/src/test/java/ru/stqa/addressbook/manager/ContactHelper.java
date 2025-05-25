@@ -117,8 +117,14 @@ public class ContactHelper extends HelperBase {
         }
     }
 
+    @Step
     public List<ContactData> getList() {
         openContactPage();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         var contacts = new ArrayList<ContactData>();
         var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
         for (var tr : trs) {
