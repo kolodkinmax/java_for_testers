@@ -39,6 +39,7 @@ public class ContactHelper extends HelperBase {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
+    @Step
     public void removeContact(ContactData contact) {
         openContactPage();
         selectContact(contact);
@@ -89,6 +90,7 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
+    @Step
     private void openContactPage() {
         click(By.linkText("home"));
     }
@@ -99,6 +101,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
+    @Step
     private void selectContact(ContactData contact) {
 //        moveTo(By.cssSelector(String.format("input[id='%s']", contact.id())));
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));

@@ -13,10 +13,12 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveContact() {
-        if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData("Макс", "Такой", "Самый",
-                    "28", "April", "1987"));
-        }
+        Allure.step("Checking precondition", step -> {
+            if (app.hbm().getContactCount() == 0) {
+                app.hbm().createContact(new ContactData("Макс", "Такой", "Самый",
+                        "28", "April", "1987"));
+            }
+        });
         var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
