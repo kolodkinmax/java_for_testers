@@ -3,6 +3,7 @@ package ru.stqa.addressbook.tests;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
+    @Step
     public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
 //        for (var firstName : List.of("", "firstName")) {
@@ -94,6 +96,7 @@ public class ContactCreationTests extends TestBase {
         return result;
     }
 
+    @Step
     public static List<ContactData> singleRandomGroup() {
         return List.of(new ContactData()
                 .withFirstName(CommonFunctions.randomString(10))
