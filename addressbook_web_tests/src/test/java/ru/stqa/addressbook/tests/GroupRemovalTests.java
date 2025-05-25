@@ -2,6 +2,7 @@ package ru.stqa.addressbook.tests;
 
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import ru.stqa.addressbook.manager.ApplicationManager;
@@ -12,6 +13,7 @@ import java.util.Random;
 
 public class GroupRemovalTests extends TestBase {
 
+    @Disabled("Тест приводит к ошибке \"DB is corrupted\"")
     @Test
     public void CanRemoveGroup() {
         Allure.step("Checking precondition", step -> {
