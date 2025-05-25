@@ -114,7 +114,6 @@ public class ContactHelper extends HelperBase {
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         System.out.println("checkboxes= " + checkboxes);
         for (var checkbox : checkboxes) {
-            Thread.sleep(1000);
             moveTo(checkbox);
             checkbox.click();
         }
