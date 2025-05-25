@@ -21,18 +21,10 @@ public class ContactRemovalTests extends TestBase {
             }
         });
         var oldContacts = app.hbm().getContactList();
-
-        System.out.println("oldContacts= " + oldContacts.toString());
-        System.out.println("по версии ВЕБ= " + app.contacts().getList());
-
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         app.contacts().removeContact(oldContacts.get(index));
         var newContacts = app.hbm().getContactList();
-
-        System.out.println("newContacts= " + newContacts.toString());
-        System.out.println("по версии ВЕБ= " + app.contacts().getList());
-
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.remove(index);
         Assertions.assertEquals(newContacts, expectedList);
