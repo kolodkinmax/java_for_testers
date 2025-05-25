@@ -109,7 +109,7 @@ public class ContactHelper extends HelperBase {
     }
 
     @Step
-    public void selectAllContacts() throws InterruptedException {
+    public void selectAllContacts() {
         openContactPage();
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         System.out.println("checkboxes= " + checkboxes);
@@ -122,13 +122,11 @@ public class ContactHelper extends HelperBase {
     @Step
     public List<ContactData> getList() {
         openContactPage();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         var contacts = new ArrayList<ContactData>();
         var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+
+        System.out.println("trs" + trs);
+
         for (var tr : trs) {
             var firstName = tr.findElement(By.cssSelector("td:nth-child(3)")).getText();
             var lastName = tr.findElement(By.cssSelector("td:nth-child(2)")).getText();
