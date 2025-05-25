@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class GroupRemovalTests extends TestBase {
 
-    @Disabled("Тест приводит к ошибке \"DB is corrupted\"")
+//    @Disabled("Тест приводит к ошибке \"DB is corrupted\"")
     @Test
     public void CanRemoveGroup() {
         Allure.step("Checking precondition", step -> {

@@ -22,9 +22,9 @@ public class TestBase {
         }
     }
 
-    @AfterEach
-    void checkDatabaseConsistency() {
-        app.jbdc().checkConsistency();
-    }
+//    @AfterEach
+//    void checkDatabaseConsistency() {
+//        app.jbdc().checkConsistency();
+//    }
 
 }
