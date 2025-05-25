@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -21,7 +22,8 @@ public class ContactModificationTests extends TestBase {
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         var testData = new ContactData().withFirstName("modified First Name").withLastName("modified Last Name");
-        System.out.println(testData.photo());
+        var pathPhotoDir = new File(testData.photo());
+        System.out.println(pathPhotoDir.getAbsolutePath());
         app.contacts().modifyContact(oldContacts.get(index), testData);
         var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
