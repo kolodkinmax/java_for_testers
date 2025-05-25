@@ -12,6 +12,7 @@ import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class ContactCreationTests extends TestBase {
         try (var reader = new FileReader("contacts.json");
              var breader = new BufferedReader(reader)
         ) {
+            System.out.println("Путь к json " + reader);
             var line = breader.readLine();
             while (line != null) {
                 json = json + line + "\n";

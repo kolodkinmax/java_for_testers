@@ -22,13 +22,6 @@ public class ContactModificationTests extends TestBase {
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         var testData = new ContactData().withFirstName("modified First Name").withLastName("modified Last Name");
-
-        var pathPhotoDir = new File(testData.photo());
-        System.out.println("Путь к фото " + pathPhotoDir.getAbsolutePath());
-        app.contacts().modifyContact(oldContacts.get(index), testData);
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Текущая директория: " + currentDir);
-
         var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.set(index, testData.withId(oldContacts.get(index).id()).withPhoto(newContacts.get(index).photo())); //обход проверки загруженного фото
