@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -92,6 +93,7 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("home"));
     }
 
+    @Step
     public void removeSelectedContact() {
 //        moveTo(By.xpath("//input[@value=\'Delete\']"));
         click(By.xpath("//input[@value=\'Delete\']"));
@@ -102,6 +104,7 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
+    @Step
     public void selectAllContacts() {
         openContactPage();
         var checkboxes = manager.driver.findElements(By.name("selected[]"));

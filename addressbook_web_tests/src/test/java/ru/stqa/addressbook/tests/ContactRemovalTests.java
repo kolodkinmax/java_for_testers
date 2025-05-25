@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
@@ -54,6 +55,8 @@ public class ContactRemovalTests extends TestBase {
         }
         app.contacts().selectAllContacts();
         app.contacts().removeSelectedContact();
-        Assertions.assertEquals(0, app.hbm().getContactCount());
+        Allure.step("Validating results", step -> {
+            Assertions.assertEquals(0, app.hbm().getContactCount());
+        });
     }
 }
