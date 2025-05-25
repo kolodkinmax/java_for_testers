@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -110,11 +111,13 @@ public class ContactHelper extends HelperBase {
     @Step
     public void selectAllContacts() {
         openContactPage();
-        var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes) {
-            moveTo(checkbox);
-            checkbox.click();
-        }
+        Allure.step("Выбираем все контакты", step -> {
+            var checkboxes = manager.driver.findElements(By.name("selected[]"));
+            for (var checkbox : checkboxes) {
+                moveTo(checkbox);
+                checkbox.click();
+            }
+        });
     }
 
     @Step

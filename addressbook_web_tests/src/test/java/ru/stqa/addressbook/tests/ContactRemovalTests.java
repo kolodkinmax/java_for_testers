@@ -3,6 +3,7 @@ package ru.stqa.addressbook.tests;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
@@ -63,8 +64,12 @@ public class ContactRemovalTests extends TestBase {
             app.hbm().createContact(new ContactData("Макс", "Такой", "Самый",
                     "28", "April", "1987"));
         }
-        app.contacts().selectAllContacts();
-        app.contacts().removeSelectedContact();
+        Allure.step("Выбираем все контакты в самом тесте", step -> {
+            app.contacts().selectAllContacts();
+        });
+        Allure.step("Удаляем контакты", step -> {
+            app.contacts().removeSelectedContact();
+        });
         Allure.step("Validating results", step -> {
             Assertions.assertEquals(0, app.hbm().getContactCount());
         });
